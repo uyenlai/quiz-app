@@ -1,33 +1,33 @@
 import React from "react";
 
 type QuestionProps = {
-  question: string[];
-  answer: string;
-  callback: any;
-  userAnswers: string[];
-  questionNum: number;
-  total: number;
+  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  question: string;
+  currentQuestionNum: number;
+  totalQuestions: number;
+  choices: string[];
+  userAnswer: undefined | boolean;
 };
 
 const QuestionCard = ({
-  question,
-  answer,
   callback,
-  userAnswers,
-  questionNum,
-  total,
+  question,
+  currentQuestionNum,
+  totalQuestions,
+  choices,
+  userAnswer,
 }: QuestionProps): JSX.Element => {
   return (
     <main>
       <p>
-        Question: {questionNum} / {total}{" "}
+        Question: {currentQuestionNum} / {totalQuestions}{" "}
       </p>
       <p>{question}</p>
       <div>
-        {userAnswers.map((answer) => (
-          <div>
-            <button disabled>
-              <span>{answer}</span>
+        {choices.map((choice) => (
+          <div key={choice}>
+            <button disabled={userAnswer} onClick={callback}>
+              {choice}
             </button>
           </div>
         ))}
