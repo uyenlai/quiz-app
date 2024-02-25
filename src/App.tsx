@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
-import { Question, ExtendedQuestion, url, QUESTIONS_NUM } from "./API";
-import { shuffleAnswers } from "./utils";
+import { Question, ExtendedQuestion, url, QUESTIONS_NUM } from "./api/API";
+import { shuffleAnswers } from "./utils/utils";
+import classes from "./App.module.css";
 
 export type UserAnswer = {
   question: string;
@@ -62,36 +63,50 @@ function App() {
   };
 
   return (
-    <>
+    <main className={classes.container}>
       <h1>Quiz Game</h1>
-      {gameOver && <button onClick={handleStartGame}>Start quiz!</button>}
-      {loading && <p>Loading questions...</p>}
-      {!gameOver && <p>Score: {score} </p>}
-      {!gameOver && userAnswers.length <= QUESTIONS_NUM && (
-        <QuestionCard
-          callback={checkAnswer}
-          question={questions[number].question}
-          currentQuestionNum={number + 1}
-          totalQuestions={questions.length}
-          choices={[
-            questions[number].correct_answer,
-            ...questions[number].incorrect_answers,
-          ]}
-          userAnswer={userAnswers.length === number + 1}
-        />
-      )}
+      <div className={classes.content}>
+        {gameOver && (
+          <button className={classes.btn} onClick={handleStartGame}>
+            Start quiz!
+          </button>
+        )}
 
-      {!gameOver &&
-        userAnswers.length === number + 1 &&
-        userAnswers.length <= QUESTIONS_NUM - 1 && (
-          <button onClick={nextQuestion}>Next question</button>
+        {loading && <p className={classes.loading}>Loading questions...</p>}
+        {!gameOver && <p className={classes.score}>Score: {score} </p>}
+        {!gameOver && userAnswers.length <= QUESTIONS_NUM && (
+          <QuestionCard
+            callback={checkAnswer}
+            question={questions[number].question}
+            currentQuestionNum={number + 1}
+            totalQuestions={questions.length}
+            choices={[
+              questions[number].correct_answer,
+              ...questions[number].incorrect_answers,
+            ]}
+            userAnswer={userAnswers.length === number + 1}
+          />
         )}
-      {!gameOver &&
-        userAnswers.length === number + 1 &&
-        userAnswers.length === QUESTIONS_NUM && (
-          <button onClick={handleStartGame}>Restart quiz!</button>
-        )}
-    </>
+
+        {!gameOver &&
+          userAnswers.length === number + 1 &&
+          userAnswers.length <= QUESTIONS_NUM - 1 && (
+            <button
+              className={`${classes.btn} ${classes.next}`}
+              onClick={nextQuestion}
+            >
+              Next question
+            </button>
+          )}
+        {!gameOver &&
+          userAnswers.length === number + 1 &&
+          userAnswers.length === QUESTIONS_NUM && (
+            <button className={classes.btn} onClick={handleStartGame}>
+              Restart quiz!
+            </button>
+          )}
+      </div>
+    </main>
   );
 }
 

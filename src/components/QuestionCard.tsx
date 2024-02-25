@@ -1,4 +1,5 @@
 import React from "react";
+import classes from "./QuestionCard.module.css";
 
 type QuestionProps = {
   callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -18,19 +19,24 @@ const QuestionCard = ({
   userAnswer,
 }: QuestionProps): JSX.Element => {
   return (
-    <main>
-      <p>
+    <main className={classes.container}>
+      <h3>
         Question: {currentQuestionNum} / {totalQuestions}{" "}
-      </p>
-      <p>{question}</p>
-      <div>
-        {choices.map((choice) => (
-          <div key={choice}>
-            <button disabled={userAnswer} onClick={callback}>
+      </h3>
+      <div className={classes.questionContainer}>
+        <p>{question}</p>
+        <div className={classes.choices}>
+          {choices.map((choice) => (
+            <button
+              key={choice}
+              className={classes.choice}
+              disabled={userAnswer}
+              onClick={callback}
+            >
               {choice}
             </button>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </main>
   );
